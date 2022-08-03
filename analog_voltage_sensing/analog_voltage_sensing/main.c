@@ -137,7 +137,7 @@ int main(void)
 	// First, set up reference voltage for DAC
 	VREF.DAC0REF = VREF_ALWAYSON_bm | VREF_REFSEL_VDD_gc; // DAC reference voltage will be VDD
 	// Set up DAC to produce about 1.8V
-	DAC0.DATA = 559 << DAC_DATA0_bp; // Set output to be (1.8/3.3) of VDD
+	DAC0.DATA = 559 << DAC_DATA_0_bp; // Set output to be (1.8/3.3) of VDD
 	
 	// Setup timebase value
 	CLKCTRL.MCLKTIMEBASE = TIMEBASE_VALUE;

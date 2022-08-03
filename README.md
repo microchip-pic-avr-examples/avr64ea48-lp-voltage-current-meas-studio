@@ -6,12 +6,20 @@
 
 <!-- This is where the introduction to the example goes, including mentioning the peripherals used -->
 
-## Related Documentation
 
-<!-- Any information about an application note or tech brief can be linked here. Use unbreakable links!
-     In addition a link to the device family landing page and relevant peripheral pages as well:
-     - [AN3381 - Brushless DC Fan Speed Control Using Temperature Input and Tachometer Feedback](https://microchip.com/00003381/)
-     - [PIC18F-Q10 Family Product Page](https://www.microchip.com/design-centers/8-bit/pic-mcus/device-selection/pic18f-q10-product-family) -->
+
+##  Low-Power AVR® EA Current Sensing Measurements
+This example shows how to use the AVR64EA48 microcontroller to measure a current by using the Analog-to-Digital (ADC) peripheral. Additional components are needed since the ADC can only sample a voltage signal.
+
+Some sensors, like photodiodes, phototransistors and some temperature sensors, will output a current signal. Use the 12-bit ADC peripheral to measure the signal coming from such sensors. The ADC can only convert voltages. To measure a current, send the current through a "sense" resistor and measure the voltage drop across it. Then use this to calculate the current.
+
+## Low-Power AVR EA Resistance Temperature Detector (RTD) Measurements 
+
+This example uses the AVR EA microcontroller to periodically drive
+a Resistance Temperature Detector (RTD) with current, measure the
+voltage across the RTD, and calculate both resistance and
+temperature of the RTD.  The only hardware needed in addition to
+the microcontroller is a 1.8 kohm fixed resistor and the RTD itself.
 
 ## Software Used
 
@@ -26,20 +34,10 @@
 - AVR® GCC 5.4.0 or newer compiler [(AVR® GCC 5.4)](https://www.microchip.com/en-us/development-tools-tools-and-software/gcc-compilers-avr-and-arm?utm_source=GitHub&utm_medium=TextLink&utm_campaign=MCU8_MMTCha_MPAE_Examples&utm_content=avr64ea48-lp-voltage-current-meas-studio-github)
 
 ## Hardware Used
+ - AVR64EA48 
 
-<!-- All hardware used in this example must be listed here. Use unbreakable links!
-     - PIC18F47Q10 Curiosity Nano [(DM182029)](https://www.microchip.com/Developmenttools/ProductDetails/DM182029)
-     - Curiosity Nano Base for Click boards™ [(AC164162)](https://www.microchip.com/Developmenttools/ProductDetails/AC164162)
-     - POT Click board™ [(MIKROE-3402)](https://www.mikroe.com/pot-click) -->
 
-## Setup
 
-<!-- Explain how to connect hardware and set up software. Depending on complexity, step-by-step instructions and/or tables and/or images can be used -->
 
-## Operation
-
-<!-- Explain how to operate the example. Depending on complexity, step-by-step instructions and/or tables and/or images can be used -->
-
-## Summary
 
 <!-- Summarize what the example has shown -->
