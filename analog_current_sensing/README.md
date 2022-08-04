@@ -1,8 +1,30 @@
+[![MCHP](images/microchip.png)](https://www.microchip.com)
+
 # Low-Power AVR® EA Current Sensing Measurements
+
 
 This example shows how to use the AVR64EA48 microcontroller to measure a current by using the Analog-to-Digital (ADC) peripheral. Additional components are needed since the ADC can only sample a voltage signal.
 
-Some sensors, like photodiodes, phototransistors and some temperature sensors, will output a current signal. Use the 12-bit ADC peripheral to measure the signal coming from such sensors. The ADC can only convert voltages. To measure a current, send the current through a "sense" resistor and measure the voltage drop across it. Then use this to calculate the current.
+Some sensors, like photodiodes, phototransistors and some temperature sensors, will output a current signal. Use the 12-bit ADC peripheral to measure the signal coming from such sensors. The ADC can only convert voltages. To measure a current, send the current through a "sense" resistor and measure the voltage drop across it.
+
+## Related Documentation
+- [AVR64EA48 device page](https://www.microchip.com/wwwproducts/en/AVR64EA48)
+
+
+## Hardware Used
+- [AVR64EA48 Curiosity Nano](https://www.microchip.com/en-us/development-tool/EV66E56A)
+- Resistors 100k Ohm x2, 10k Ohm. 
+
+
+## Operation
+- Connect the AVR64EA48 Curiosity Nano to a computer using a USB cable
+- Download the zip file or clone the example to get the source code
+- Open the .atsln file with Microchip Studio
+- Press Start Without Debugging (CTRL+ALT+F5) to run the application
+
+## Setup
+
+ Then use this to calculate the current.
 
 This example will use the following circuit to measure the current:
 
@@ -91,6 +113,10 @@ If the value matches this period, the DAC is enabled to produce an output voltag
 The AVR® EA is configured to stay in Power-Down sleep mode whenever a measurement is not in progress, to minimize the power consumption.
 
 When measuring low-value signals like in this example, the PGA should be enabled to amplfiy the input signal to get better resolution on the measurement. In this example, the PGA gain is set to 16x and PGA BIAS set to 100% (since we are changing the main clock). Since PGA is used, the VIA bit fields of the MUXPOS and MUXNEG registers must be enabled.
+
+
+## Conclusion
+
 
 The following table shows the average current consumptions using different configurations (V<sub>DD</sub> = 3.3V):
 

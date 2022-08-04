@@ -1,3 +1,4 @@
+[![MCHP](images/microchip.png)](https://www.microchip.com)
 # Low-Power AVR EA Resistance Temperature Detector (RTD) Measurements
 
 This example uses the AVR EA microcontroller to periodically drive
@@ -5,8 +6,18 @@ a Resistance Temperature Detector (RTD) with current, measure the
 voltage across the RTD, and calculate both resistance and
 temperature of the RTD.  The only hardware needed in addition to
 the microcontroller is a 1.8 kohm fixed resistor and the RTD itself.
-Hardware connections are as follows:
 
+## Related Documentation
+
+- [AVR64EA48 device page](https://www.microchip.com/wwwproducts/en/AVR64EA48)
+
+
+## Hardware Used
+- [AVR64EA48 Curiosity Nano](https://www.microchip.com/en-us/development-tool/EV66E56A)
+- RTD pt100 Sensor
+- 1.8 kOhm Resistor
+
+## Setup
 ![](images/HardwareConnections.png)
 * The DAC0OUT (PD6 on AVR EA) pin of the device must be connected to the
 VREFA (PD7 on AVR EA) pin of the device so that the Digital-to-Analog
@@ -16,6 +27,15 @@ the Analog-to-Digital Converter (ADC)
 DAC0OUT (PD6 on AVR EA) pin to the ADC0 AIN0 (PD0 on AVR EA) pin
 * The RTD must be connected from the ADC0 AIN0 (PD0 on AVR EA) pin to ground
 * The ADC0 AIN1 pin (PD1 on AVR EA) must be connected directly to ground
+
+
+## Operation
+- Connect the AVR64EA48 Curiosity Nano to a computer using a USB cable
+- Download the zip file or clone the example to get the source code
+- Open the .atsln file with Microchip Studio
+- Press Start Without Debugging (CTRL+ALT+F5) to run the application
+
+## Theory
 
 In order to measure the RTD, the DAC is enabled to produce an output of
 approximately 1.8V.  Since the DAC voltage is applied to a 1.8 kohm fixed resistor in
@@ -97,6 +117,8 @@ DAC and ADC are disabled and the device is put back to sleep.
 When the DAC and ADC are both enabled after the device comes out of sleep, the DAC output
 stabilizes before the ADC is ready to start its first conversion, so there is
 no need for additional delays in the software.
+
+## Conclusion
 
 Various strategies were tested to minimize power
 consumption (higher/lower CPU+ADC clock speeds, PGA on/off with less/more
