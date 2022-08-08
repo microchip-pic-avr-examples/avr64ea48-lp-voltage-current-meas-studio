@@ -24,7 +24,7 @@
         },
         "configurator": {
             "name": "N/A",
-            "semverRange": ""
+            "semverRange": " "
         },
         "device": {
             "metaDataVersion": "1.0.0",
@@ -36,9 +36,9 @@
                 "versionRange": "*"
             }
         },
-        "author": "",
+        "author": "Runar Sivertsen",
         "peripherals": ["ADC", "RTC", "DAC", "USART", "Sleep"],
-        "keywords": ["Temperature", "Voltage", "Current", "Low Power", "Sleep", "Measurement", "AVR EA", "Data Acquisition"],
+        "keywords": ["Temperature Sensing", "Voltage Sensor", "Current Sensor", "Low Power", "Sleep", "Current Measurement"],
         "additionalData": {
             "longDescription": {
                 "metaDataVersion": "1.0.0",
