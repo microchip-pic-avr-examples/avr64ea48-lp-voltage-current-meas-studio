@@ -4,10 +4,10 @@
     "content": {
         "metaDataVersion": "1.3.0",
         "name": "com.microchip.mcu8.studio.project.avr64ea48-lp-voltage-current-meas-studio",
-        "version": " ",
-        "displayName": "",
+        "version": "1.0.0",
+        "displayName": "Low Power Current and Voltage Measurement",
         "projectName": "avr64ea48-lp-voltage-current-meas-studio",
-        "shortDescription": "This code example demonstrates how to preform low power voltage and current measurement using the AVR EAMicrocontroller\r\n\r\n",
+        "shortDescription": "This code example demonstrates how to preform low power voltage and current measurement using the AVR EA Microcontroller",
         "ide": {
             "name": "STUDIO",
             "semverRange": ">=7.0.2542"
@@ -19,11 +19,11 @@
             }
         ],
         "dfp": {
-            "name": "",
-            "semverRange": ""
+            "name": "AVR-Ex_DFP",
+            "semverRange": "^1.0.38"
         },
         "configurator": {
-            "name": "",
+            "name": "N/A",
             "semverRange": ""
         },
         "device": {
@@ -36,9 +36,9 @@
                 "versionRange": "*"
             }
         },
-        "author": "Runar Bruun Sivertsen",
-        "peripherals": [],
-        "keywords": [],
+        "author": "",
+        "peripherals": ["ADC", "RTC", "DAC", "USART", "Sleep"],
+        "keywords": ["Temperature", "Voltage", "Current", "Low Power", "Sleep", "Measurement", "AVR EA", "Data Acquisition"],
         "additionalData": {
             "longDescription": {
                 "metaDataVersion": "1.0.0",
