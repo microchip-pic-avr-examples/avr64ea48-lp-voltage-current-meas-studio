@@ -1,20 +1,23 @@
 [![MCHP](images/microchip.png)](https://www.microchip.com)
-
 # Low-Power AVR® EA Current Sensing Measurements
 
-
-This example shows how to use the AVR64EA48 microcontroller to measure a current by using the Analog-to-Digital (ADC) peripheral. Additional components are needed since the ADC can only sample a voltage signal.
+This example shows how to use the AVR64EA48 to measure a current by using the Analog-to-Digital (ADC) peripheral. Additional components are needed since the ADC can only sample a voltage signal.
 
 Some sensors, like photodiodes, phototransistors and some temperature sensors, will output a current signal. Use the 12-bit ADC peripheral to measure the signal coming from such sensors. The ADC can only convert voltages. To measure a current, send the current through a "sense" resistor and measure the voltage drop across it.
 
 ## Related Documentation
 - [AVR64EA48 device page](https://www.microchip.com/wwwproducts/en/AVR64EA48)
 
-
 ## Hardware Used
 - [AVR64EA48 Curiosity Nano](https://www.microchip.com/en-us/development-tool/EV66E56A)
-- Resistors 100k Ohm x2, 10k Ohm. 
+- 2 x 100 kOhm resistor 
+- 10 kOhm resistor
 
+## Setup
+<p><img width=auto height=300px alignment="center" src="Images/ID01-current_measure-resistor_setup.png"></p>
+- The DAC0 OUT pin (PD6 on AVR64EA48) is connected to the ADC0 IN1 pin (PD1 on AVR64EA48) via resistor R<sub>1</sub>. The DAC0 OUT pin will generate the voltage (V<sub>0</sub>) we use as basis for emulating a current source.
+- The ADC0 IN1 input pin (PD1 on AVR64EA48) is connected to the ADC0 IN0 pin (PD0 on AVR64EA48) via resistor R<sub>SENSE</sub>. This is the sensing resistor that is used to calculate the current I<sub>0</sub>.
+- The ADC0 IN0 input pin (PD0 on AVR64EA48) is connected to ground (GND) via resistor R<sub>2</sub>
 
 ## Operation
 - Connect the AVR64EA48 Curiosity Nano to a computer using a USB cable
@@ -22,13 +25,13 @@ Some sensors, like photodiodes, phototransistors and some temperature sensors, w
 - Open the .atsln file with Microchip Studio
 - Press Start Without Debugging (CTRL+ALT+F5) to run the application
 
-## Setup
+
 
  Then use this to calculate the current.
 
 This example will use the following circuit to measure the current:
 
-<p><img width=auto height=300px alignment="center" src="Images/ID01-current_measure-resistor_setup.png"></p>
+
 
 where:
 
