@@ -1,4 +1,4 @@
-[![MCHP](images/microchip.png)](https://www.microchip.com)
+[![MCHP](Images/microchip.png)](https://www.microchip.com)
 # Low-Power AVR® EA Current Sensing Measurements
 
 This example shows how to use the AVR EA microcontoller to measure a current by using the Analog-to-Digital (ADC) peripheral. The only hardware needed in addition to the microcontroller are 2 100 kΩ resistors and one 10 kΩ resistor.
