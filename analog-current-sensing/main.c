@@ -7,19 +7,15 @@
 
 // Define Main clock
 #define F_CPU (20000000UL)      // 20 MHz clock
-//#define F_CPU (3333333UL)       // 20 MHz/6 = 3.333333 MHz
-//#define F_CPU (2000000UL)       // 20 MHz/10 = 2 MHz
 
 // USART Defines
-#define BAUD_RATE 9600          // Define the baud rate for the USART
+#define BAUD_RATE 115200        // Define the baud rate for the USART
                                 // Max BAUD_RATE = F_CPU / S [Min clock period, S = 16 for async]
-#define USART_ON                // Enable USART1 output on terminal
 
 // ADC Defines
 #define ADC_SAMPLES 16          // Number of samples for ADC burst mode
 #define ADC_GAIN 16             // Gain for PGA operation
 #define ADC_REF 3.300           // ADC reference voltage in V 
-#define PGA_ON                  // turn on PGA for ADC
 
 // DAC Defines
 #define DAC_REF 3.300           // DAC reference voltage in V 
@@ -29,9 +25,11 @@
 #define TIMEBASE_VALUE ((uint8_t) ceil(F_CPU * 0.000001))
                                 // TIMEBASE_VALUE = number of clock ticks in 1us
 #define WAKEUP_TIME 10          // Wakeup and sample ADC each 10 seconds
-#define LED_ON                  // Enable blink LED (PB3) on ADC sampling
 #define R_SENSE 10000           // Sense resistor value in Ohm
 #define BIAS_ADJUST             // add bias and offset adjustment to measurement
+#define LED_ON                  // Enable blink LED (PB3) on ADC sampling
+#define PGA_ON                  // turn on PGA for ADC
+#define USART_ON                // Enable USART1 output on terminal
 
 
 // Inlcudes
@@ -222,10 +220,6 @@ void init_clock(void)
     // Main clock no divider --> CLK_PER = 20 MHz
     _PROTECTED_WRITE(CLKCTRL.MCLKCTRLB, 0);
     
-    // 3.33 MHz is default (20 MHz / 6 = 3.33 MHz)
-    
-    // Main clock divided by 10 -> CLK_PER = 2MHz
-    //_PROTECTED_WRITE(CLKCTRL.MCLKCTRLB, CLKCTRL_PDIV_DIV10_gc | CLKCTRL_PEN_bm);
 }
 
 
@@ -239,29 +233,13 @@ void init_clock(void)
 **************************************************************************/
 void init_PORT(void)
 {
-    for (uint8_t i = 0; i < 8; i++) {
-        *((uint8_t *)&PORTA + 0x10 + i) = PORT_ISC_INPUT_DISABLE_gc;
-    }
-    
-    for (uint8_t i = 0; i < 8; i++) {
-        *((uint8_t *)&PORTB + 0x10 + i) = PORT_ISC_INPUT_DISABLE_gc;
-    }
-    
-    for (uint8_t i = 0; i < 8; i++) {
-        *((uint8_t *)&PORTC + 0x10 + i) = PORT_ISC_INPUT_DISABLE_gc;
-    }
-    
-    for (uint8_t i = 0; i < 8; i++) {
-        *((uint8_t *)&PORTD + 0x10 + i) = PORT_ISC_INPUT_DISABLE_gc;
-    }
-    
-    for (uint8_t i = 0; i < 8; i++) {
-        *((uint8_t *)&PORTE + 0x10 + i) = PORT_ISC_INPUT_DISABLE_gc;
-    }
-
-    for (uint8_t i = 0; i < 8; i++) {
-        *((uint8_t *)&PORTF + 0x10 + i) = PORT_ISC_INPUT_DISABLE_gc;
-    }
+     PORTA.PINCONFIG = PORT_ISC_INPUT_DISABLE_gc;
+     PORTA.PINCTRLUPD = 0xff;
+     PORTB.PINCTRLUPD = 0xff;
+     PORTC.PINCTRLUPD = 0xff;
+     PORTD.PINCTRLUPD = 0xff;
+     PORTE.PINCTRLUPD = 0xff;
+     PORTF.PINCTRLUPD = 0xff;
 }
 
 
@@ -578,7 +556,9 @@ int main(void)
     init_VREF();                                // Init Voltage Reference (VREF)
     init_DAC0();                                // Init DAC0
     init_ADC0();                                // Init ADC0
+    
     measure_offset_bias();                      // Measure ADC0 offset and bias on inputs (AIN0 + AIN1)
+    
     set_DAC0_output();                          // Set DAC output voltage as defined by DAC_OUT (see #defines)
     init_RTC_PIT();                             // Init RTC and PIT
     

@@ -1,5 +1,6 @@
 # Untracked files in Studio projects
 /**/.vs
+.vscode/*
 /**/*.atsuo
 /**/[Dd]ebug/*
 /**/[Rr]elease/*
@@ -9,3 +10,5 @@
 #!/**/[Dd]ebug/*.elf
 #!/**/[Rr]elease/*.hex
 #!/**/[Rr]elease/*.elf
+
+

@@ -46,59 +46,13 @@ int main(void)
 	// to reduce power consumption (one test
 	// showed this can reduce consumption by
 	// more than 50 uA)
-	PORTA.PIN0CTRL = PORT_ISC_INPUT_DISABLE_gc;
-	PORTA.PIN1CTRL = PORT_ISC_INPUT_DISABLE_gc;
-	PORTA.PIN2CTRL = PORT_ISC_INPUT_DISABLE_gc;
-	PORTA.PIN3CTRL = PORT_ISC_INPUT_DISABLE_gc;
-	PORTA.PIN4CTRL = PORT_ISC_INPUT_DISABLE_gc;
-	PORTA.PIN5CTRL = PORT_ISC_INPUT_DISABLE_gc;
-	PORTA.PIN6CTRL = PORT_ISC_INPUT_DISABLE_gc;
-	PORTA.PIN7CTRL = PORT_ISC_INPUT_DISABLE_gc;
-	
-	PORTB.PIN0CTRL = PORT_ISC_INPUT_DISABLE_gc;
-	PORTB.PIN1CTRL = PORT_ISC_INPUT_DISABLE_gc;
-	PORTB.PIN2CTRL = PORT_ISC_INPUT_DISABLE_gc;
-	PORTB.PIN3CTRL = PORT_ISC_INPUT_DISABLE_gc;
-	PORTB.PIN4CTRL = PORT_ISC_INPUT_DISABLE_gc;
-	PORTB.PIN5CTRL = PORT_ISC_INPUT_DISABLE_gc;
-	PORTB.PIN6CTRL = PORT_ISC_INPUT_DISABLE_gc;
-	PORTB.PIN7CTRL = PORT_ISC_INPUT_DISABLE_gc;
-
-	PORTC.PIN0CTRL = PORT_ISC_INPUT_DISABLE_gc;
-	PORTC.PIN1CTRL = PORT_ISC_INPUT_DISABLE_gc;
-	PORTC.PIN2CTRL = PORT_ISC_INPUT_DISABLE_gc;
-	PORTC.PIN3CTRL = PORT_ISC_INPUT_DISABLE_gc;
-	PORTC.PIN4CTRL = PORT_ISC_INPUT_DISABLE_gc;
-	PORTC.PIN5CTRL = PORT_ISC_INPUT_DISABLE_gc;
-	PORTC.PIN6CTRL = PORT_ISC_INPUT_DISABLE_gc;
-	PORTC.PIN7CTRL = PORT_ISC_INPUT_DISABLE_gc;
-	
-	PORTD.PIN0CTRL = PORT_ISC_INPUT_DISABLE_gc;
-	PORTD.PIN1CTRL = PORT_ISC_INPUT_DISABLE_gc;
-	PORTD.PIN2CTRL = PORT_ISC_INPUT_DISABLE_gc;
-	PORTD.PIN3CTRL = PORT_ISC_INPUT_DISABLE_gc;
-	PORTD.PIN4CTRL = PORT_ISC_INPUT_DISABLE_gc;
-	PORTD.PIN5CTRL = PORT_ISC_INPUT_DISABLE_gc;
-	PORTD.PIN6CTRL = PORT_ISC_INPUT_DISABLE_gc;
-	PORTD.PIN7CTRL = PORT_ISC_INPUT_DISABLE_gc;
-	
-	PORTE.PIN0CTRL = PORT_ISC_INPUT_DISABLE_gc;
-	PORTE.PIN1CTRL = PORT_ISC_INPUT_DISABLE_gc;
-	PORTE.PIN2CTRL = PORT_ISC_INPUT_DISABLE_gc;
-	PORTE.PIN3CTRL = PORT_ISC_INPUT_DISABLE_gc;
-	PORTE.PIN4CTRL = PORT_ISC_INPUT_DISABLE_gc;
-	PORTE.PIN5CTRL = PORT_ISC_INPUT_DISABLE_gc;
-	PORTE.PIN6CTRL = PORT_ISC_INPUT_DISABLE_gc;
-	PORTE.PIN7CTRL = PORT_ISC_INPUT_DISABLE_gc;
-	
-	PORTF.PIN0CTRL = PORT_ISC_INPUT_DISABLE_gc;
-	PORTF.PIN1CTRL = PORT_ISC_INPUT_DISABLE_gc;
-	PORTF.PIN2CTRL = PORT_ISC_INPUT_DISABLE_gc;
-	PORTF.PIN3CTRL = PORT_ISC_INPUT_DISABLE_gc;
-	PORTF.PIN4CTRL = PORT_ISC_INPUT_DISABLE_gc;
-	PORTF.PIN5CTRL = PORT_ISC_INPUT_DISABLE_gc;
-	PORTF.PIN6CTRL = PORT_ISC_INPUT_DISABLE_gc;
-	PORTF.PIN7CTRL = PORT_ISC_INPUT_DISABLE_gc;
+    PORTA.PINCONFIG = PORT_ISC_INPUT_DISABLE_gc;
+    PORTA.PINCTRLUPD = 0xff;
+    PORTB.PINCTRLUPD = 0xff;
+    PORTC.PINCTRLUPD = 0xff;
+    PORTD.PINCTRLUPD = 0xff;
+    PORTE.PINCTRLUPD = 0xff;
+    PORTF.PINCTRLUPD = 0xff;
 
 	// Change main clock to 20 MHz by disabling the prescaler
 	_PROTECTED_WRITE(CLKCTRL.MCLKCTRLB, 0);
@@ -127,11 +81,8 @@ int main(void)
 	RTC.PITINTCTRL = RTC_PI_bm; // Enable PIT interrupt
 	
 	// Enable the possibility to sleep in power-down mode
-	SLPCTRL.CTRLA = SLEEP_MODE_PWR_DOWN | SLPCTRL_SEN_bm;
-	
-	PORTA.DIRSET = (1<<7); // Make PA7 an output so state can be monitored with oscilloscope
-	PORTA.OUTCLR = (1<<7); // Make PA7 output logic level low
-	
+	SLPCTRL.CTRLA = SLEEP_MODE_PWR_DOWN | SLPCTRL_SEN_bm;	
+    
 	// Digital configuration is complete, now perform analog configuration
 	
 	// First, set up reference voltage for DAC
@@ -157,8 +108,12 @@ int main(void)
 
 		sleep_cpu(); // Go to sleep until the next interrupt occurs
 		
-		PORTA.OUTSET = (1<<7); // Make PA7 go high when waking up
+        PORTB.DIRSET = PIN3_bm;     // Make PB3 an output so state can be seen on LED0
+		PORTB.OUTCLR = PIN3_bm;     // Make PB3 go low to turn on LED0
 		
+        //_delay_ms(100);             // the blinking will be too fast for the human eye, 
+                                      // use this to see it or use oscilloscope on PB3
+        
 		// When waking up, first enable the DAC and ADC
 		DAC0.CTRLA = DAC_OUTEN_bm | DAC_ENABLE_bm; // Enable DAC and output pin
 		ADC0.CTRLA = ADC_ENABLE_bm; // Enable ADC
@@ -174,8 +129,11 @@ int main(void)
 			rOhm = (xAverage * 1800.0)/((0.992*16.0*2048.0) - xAverage); // Compute resistor value
 			tempDegC = (rOhm - 100.0)/0.385; // Simple temperature calculation only valid for 0 to 100 C
 		}
-		PORTA.OUTCLR = (1<<7); // Make PA7 go low just after resistance and temperature
-		// computation is complete
+        
+        PORTB.DIRCLR = PIN3_bm;     // Set PB3 as input (save power)
+        PORTB.PIN3CTRL = PORT_ISC_INPUT_DISABLE_gc;
+        
+        // computation is complete
 		
 		while(ADC0.STATUS & ADC_ADCBUSY_bm){
 			; // Wait while ADC is busy

@@ -10,7 +10,7 @@
         "shortDescription": "This code example demonstrates how to preform low power voltage and current measurement using the AVR EA Microcontroller",
         "ide": {
             "name": "STUDIO",
-            "semverRange": ">=7.0.2542"
+            "semverRange": ">=7.0.2594"
         },
         "compiler": [
             {
@@ -20,7 +20,7 @@
         ],
         "dfp": {
             "name": "AVR-Ex_DFP",
-            "semverRange": "^1.0.38"
+            "semverRange": "^2.2.56"
         },
         "configurator": {
             "name": "N/A",
@@ -36,9 +36,9 @@
                 "versionRange": "*"
             }
         },
-        "author": "Runar Sivertsen",
-        "peripherals": ["ADC", "RTC", "DAC", "USART", "Sleep"],
-        "keywords": ["Temperature Sensing", "Voltage Sensor", "Current Sensor", "Low Power", "Sleep", "Current Measurement"],
+        "author": "Microchip",
+        "peripherals": ["ADC", "RTC", "DAC", "USART", "SLPCTRL"],
+        "keywords": ["Temperature Sensing", "Voltage Sensor", "Current Sensor", "Low Power", "Sleep", "Current Measurement", "Deep Sleep", "ADC", "Bare Metal"],
         "additionalData": {
             "longDescription": {
                 "metaDataVersion": "1.0.0",
