@@ -11,7 +11,12 @@ These Microchip Studio examples describe use cases for low-power current and vol
 - [Low-Power AVR® EA Current Sensing Measurements](https://bitbucket.microchip.com/projects/EBE/repos/avr64ea48-lp-voltage-current-meas-studio/browse/analog-current-sensing)  
 Measure a current by using the Analog-to-Digital (ADC) peripheral
 - [Low-Power AVR® EA Resistance Temperature Detector (RTD) Measurements](https://bitbucket.microchip.com/projects/EBE/repos/avr64ea48-lp-voltage-current-meas-studio/browse/analog-voltage-sensing)  
-Measure a voltage by using the Analog-to-Digital (ADC) peripheral
+Measure a voltage by using the Analog-to-Digital (ADC) peripheral  
+
+## Related Documentation
+
+- [Acquiring Analog Sensor Data in Low Power Applications](https://www.microchip.com/DS00004886)
+- [AVR64EA48 device page](https://www.microchip.com/wwwproducts/en/AVR64EA48)  
 
 ## Software Used
 
