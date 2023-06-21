@@ -1,5 +1,5 @@
 
-#define F_CPU (20000000UL) // CPU frequency in Hz
+#define F_CPU (10000000UL) // CPU frequency in Hz
 #define TIMEBASE_VALUE ((uint8_t) ceil(F_CPU*0.000001))
 
 #include <avr/io.h>
@@ -54,8 +54,8 @@ int main(void)
     PORTE.PINCTRLUPD = 0xff;
     PORTF.PINCTRLUPD = 0xff;
 
-	// Change main clock to 20 MHz by disabling the prescaler
-	_PROTECTED_WRITE(CLKCTRL.MCLKCTRLB, 0);
+	// Change main clock to 10 MHz by dividing by 2 (20MHz/2=10MHz)
+	_PROTECTED_WRITE(CLKCTRL.MCLKCTRLB, (CLKCTRL_PDIV_DIV2_gc | CLKCTRL_PEN_bm));
 	while(CLKCTRL.MCLKSTATUS & CLKCTRL_SOSC_bm){
 		; // Wait for clock change to complete
 	}

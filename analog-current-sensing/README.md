@@ -16,7 +16,7 @@ This example shows how to use the AVR EA microcontoller to measure a current by 
 
 ## Setup
 
-[![current_measure_block_diagram](../images/current_measure-resistor_setup.png)
+![current_measure_block_diagram](../images/current_measure-resistor_setup.png)
 
 - The DAC0 OUT pin (PD6 on AVR64EA48) is connected to the ADC0 IN1 pin (PD1 on AVR64EA48) via resistor R<sub>1</sub>. The DAC0 OUT pin will generate the voltage (V<sub>0</sub>) we use as basis for emulating a current source.
 - The ADC0 IN1 input pin (PD1 on AVR64EA48) is connected to the ADC0 IN0 pin (PD0 on AVR64EA48) via resistor R<sub>SENSE</sub>. This is the sensing resistor that is used to calculate the current I<sub>0</sub>.
@@ -24,16 +24,22 @@ This example shows how to use the AVR EA microcontoller to measure a current by 
 
 ## Operation
 
-- Connect the AVR64EA48 Curiosity Nano to a computer using a USB cable
+- Connect the AVR64EA48 Curiosity Nano (Cnano) to a computer using a USB cable
 - Download the zip file or clone the example to get the source code
 - Open the .atsln file with Microchip Studio
-- Press Start Without Debugging (CTRL+ALT+F5) to run the application
+- Press Start Without Debugging (CTRL+ALT+F5) to run the application  
+
+## Setting the target voltage on the Curiosity Nano board
+
+This example uses the maximum allowed main clock frequency (10 MHz) at the default board voltage (3.3V). To use a higher clock frequency, the AVR64EA48 Curiosity Nano board target voltage must be set accordingly (V<sub>DD</sub> > 4.5V, see <i>Electrical Characteristics</i> in the Data Sheet). To do this, click the **Device Programming** button or enter (Ctrl + Shift + P) in Microchip Studio. Select the correct tool and device (if nothing else is connected, this is your default selected) and press the **Apply** button next to "Interface: UPDI". Now click "Tool Settings" in the left side menu, and write "5" in the "Generated" text field. Click the **Write** button, and the new voltage will be applied to the cnano board. This voltage will remain set until a new target voltage is written to the board.  
+
+![set_cnano_voltage](../images/cnano_voltage_setting.png)
 
 ## View USART data in a terminal
 
 This example uses USART1 to send data to the virtual serial port of the Curiosity Nano board. The data can be captured using a terminal application on the computer where the Curiosity Nano board is connected. This example uses a baud rate of 115200 with 8 bit data, 1 stop bit, no parity (standard format). This example shows the terminal view in the Atmel Data Visualizer standalone version.
 
-[![current_measure_terminal](../images/csense_terminal.png)
+![current_measure_terminal](../images/csense_terminal.png)
 
 ## Theory
 
@@ -121,7 +127,7 @@ $$
 
 In the example code, USART1 is used to output the measured voltage and calculated current to a terminal. To enable this the "#define USART_ON" must be included.
 
-The Periodic Interrupt Timer (PIT), a part of the Real-Time Counter (RTC), is set up to generate an interrupt approximately each second to bring the device out of Sleep mode. When this happens, a counter is incremented and checked against a predefined period (10 seconds). During the Power-Down Sleep mode the 20 MHz clock source is disabled and only the internal 32 kHz oscillator and the RTC clock source is running.
+The Periodic Interrupt Timer (PIT), a part of the Real-Time Counter (RTC), is set up to generate an interrupt approximately each second to bring the device out of Sleep mode. When this happens, a counter is incremented and checked against a predefined period (10 seconds). During the Power-Down Sleep mode the 10 MHz clock source is disabled and only the internal 32 kHz oscillator and the RTC clock source is running.
 
 If the value matches this period, the DAC is enabled to produce an output voltage of 1.8V and the ADC is enabled. The ADC is commanded to start a differential conversion immediately.  While the AD conversion is in progress, the CPU performs the calculations necessary for converting the previous ADC value into a voltage and a current. The results are printed to the terminal. As soon as this happens, the AD conversion is complete, the DAC and ADC are disabled, and the device goes back into sleep mode.
 
@@ -133,28 +139,17 @@ When measuring low-value signals like in this example, the PGA should be enabled
 
 The following table shows the average current consumptions using different configurations (V<sub>DD</sub> = 3.3V):
 
-|Main Clock | PGA Disabled (ADC), Average Current | PGA Enabled (ADC), Average Current | Relative Difference |
-|:--------|:-------:|:------:|:-----:|
-|2 MHz    |1.63 µA |1.42 µA | -13% |
-|3.33 MHz |1.41 µA |1.33 µA | -6% |
-|20 MHz   |1.14 µA |1.12 µA | -2% |
+|Main Clock | PGA Disabled (ADC), Average Current | PGA Enabled (ADC), Average Current
+|:--------|:-------:|:------:|
+|2 MHz    |1.7 µA |1.6 µA |
+|3.33 MHz |1.4 µA |1.3 µA |
+|10 MHz   |1.2 µA |1.1 µA |
 
-The measured current is reduced with increasing clock speeds, which seems somewhat counterintuitive. Since the device spend most of the time in a power-down sleep state and only wake for a brief period, this means that the total time in the Wake state is shorter with higher clock frequencies.
-
-The average current consumption in the Wake state will be higher with increasing clock frequencies. But since the time spent in the Wake state is lowered with increasing clock frequency, this effect is more significant for this example, leading to lower average current consumption with increasing clock frequency.
-
-The average current consumption done with the PGA enabled was lower than when the PGA was off. This does not follow the theoretical expected result that using the PGA should result in higher current consumption. Testing showed that by not entering sleep and sampling the ADC on each interrupt (each second) with the main clock at 20 MHz, the results were as expected:
+The average current consumption done with the PGA enabled was lower than when the PGA was off. This does not follow the theoretical expected result that using the PGA should result in higher current consumption. Testing showed that by not entering Sleep and sampling the ADC on each interrupt (each second) with the main clock at 10 MHz, the results were as expected:
 
 | PGA | Average Current Consumption |
 |:----|:---:|
-|PGA OFF | 8.44 mA |  
-|PGA ON | 9.01 mA |
-
-When re-enabling the "timeout counter" so the ADC sampling only happens every 10 seconds, the measurements were:
-
-| PGA | Average Current Consumption |
-|:----|:---:|
-|PGA OFF | 6.06 mA |  
-|PGA ON | 6.06 mA |
+|PGA OFF | 3.476 mA |  
+|PGA ON | 3.498 mA |  
 
 This suggests that the higher average current consumption measured when PGA is off as compared to when the PGA is enabled in the initial measurement is due to a combination of the time between each ADC measurement and the code executing order.

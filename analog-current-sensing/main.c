@@ -6,7 +6,7 @@
  */ 
 
 // Define Main clock
-#define F_CPU (20000000UL)      // 20 MHz clock
+#define F_CPU (10000000UL)      // 10 MHz clock
 
 // USART Defines
 #define BAUD_RATE 115200        // Define the baud rate for the USART
@@ -23,7 +23,7 @@
 
 // General Defines
 #define TIMEBASE_VALUE ((uint8_t) ceil(F_CPU * 0.000001))
-                                // TIMEBASE_VALUE = number of clock ticks in 1us
+                                                         // TIMEBASE_VALUE = number of clock ticks in 1us
 #define WAKEUP_TIME 10          // Wakeup and sample ADC each 10 seconds
 #define R_SENSE 10000           // Sense resistor value in Ohm
 #define BIAS_ADJUST             // add bias and offset adjustment to measurement
@@ -213,13 +213,16 @@ void ftostr(float n, char* res, int decimals)
 *   init_clock(void)
 *
 *   Set main clock 
+*   For 3.33 MHz just comment out and do nothing (default) 
 *
 **************************************************************************/
 void init_clock(void)
 {
-    // Main clock no divider --> CLK_PER = 20 MHz
-    _PROTECTED_WRITE(CLKCTRL.MCLKCTRLB, 0);
+    // Main clock divide by 2 --> CLK_PER = 20 MHz / 2 = 10 MHz
+    _PROTECTED_WRITE(CLKCTRL.MCLKCTRLB, (CLKCTRL_PDIV_DIV2_gc | CLKCTRL_PEN_bm));
     
+    while(CLKCTRL.MCLKSTATUS & CLKCTRL_SOSC_bm)
+        ; // Wait for clock change to complete
 }
 
 
@@ -481,7 +484,15 @@ void do_ADC0_measurement(void)
     // Start differential ADC conversion, burst mode (16x)
     ADC0.COMMAND = ADC_DIFF_bm | ADC_MODE_BURST_gc | ADC_START_IMMEDIATE_gc;
     
-    //While ADC is sampling, calculate previous measurement
+    while( !(ADC0.INTFLAGS & ADC_RESRDY_bm) )                       // wait until RESRDY flag is set
+        ;
+    
+    sample_acc = ADC0.RESULT;                                       // Read ADC result
+    
+    ADC0.CTRLA = 0;                                                 // Disable ADC
+    DAC0.CTRLA = 0;                                                 // Disable DAC
+    
+    //Calculate measurement
     #ifdef BIAS_ADJUST
         sample_acc = sample_acc - adc_offset - adc_center;          // Adjust for offset and bias
     #endif
@@ -507,14 +518,6 @@ void do_ADC0_measurement(void)
         usart1_sendString(res);
         usart1_sendString("uA\n");
     #endif
-    
-    while( !(ADC0.INTFLAGS & ADC_RESRDY_bm) )                       // wait until RESRDY flag is set
-        ;
-    
-    sample_acc = ADC0.RESULT;                                       // Read ADC result
-    
-    ADC0.CTRLA = 0;                                                 // Disable ADC
-    DAC0.CTRLA = 0;                                                 // Disable DAC
 }
 
 
