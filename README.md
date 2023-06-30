@@ -8,9 +8,9 @@ Many systems includes one or more sensors that need to be checked periodically. 
 
 These Microchip Studio examples describe use cases for low-power current and voltage measurements on the AVR® EA family of microcontrollers:
 
-- [Low-Power AVR® EA Current Sensing Measurements](https://bitbucket.microchip.com/projects/EBE/repos/avr64ea48-lp-voltage-current-meas-studio/browse/analog-current-sensing)  
+- [Low-Power AVR® EA Current Sensing Measurements](analog-current-sensing)  
 Measure a current by using the Analog-to-Digital (ADC) peripheral
-- [Low-Power AVR® EA Resistance Temperature Detector (RTD) Measurements](https://bitbucket.microchip.com/projects/EBE/repos/avr64ea48-lp-voltage-current-meas-studio/browse/analog-voltage-sensing)  
+- [Low-Power AVR® EA Resistance Temperature Detector (RTD) Measurements](analog-voltage-sensing)  
 Measure a voltage by using the Analog-to-Digital (ADC) peripheral  
 
 ## Related Documentation
