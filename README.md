@@ -4,14 +4,14 @@
 # Low-Power Current and Voltage Sensing Using the AVR® EA MCU
 
 <!-- This is where the introduction to the example goes, including mentioning the peripherals used -->
-Many systems includes one or more sensors that need to be checked periodically. The signals coming from these sensors are often low-power current or voltage signals. In battery-powered systems it is important to reduce the power consumption of the microcontroller. The signals are read using the Analog-to-Digital Converter (ADC) peripheral, and the microcontroller is in Power Saving mode between measurements.
+Many systems include sensors that require to be periodically checked. The signals coming from these sensors are often low-power current or voltage signals. In battery-powered systems it is important to reduce the power consumption of the microcontroller. The Analog-to-Digital Converter (ADC) peripheral reads the signals while the microcontroller remains in Power Saving mode between measurements.
 
 These Microchip Studio examples describe use cases for low-power current and voltage measurements on the AVR® EA family of microcontrollers:
 
 - [Low-Power AVR® EA Current Sensing Measurements](analog-current-sensing)  
-Measure a current by using the Analog-to-Digital (ADC) peripheral
+Measure a current by using the ADC peripheral
 - [Low-Power AVR® EA Resistance Temperature Detector (RTD) Measurements](analog-voltage-sensing)  
-Measure a voltage by using the Analog-to-Digital (ADC) peripheral  
+Measure a voltage by using the ADC peripheral  
 
 ## Related Documentation
 
@@ -31,4 +31,4 @@ Measure a voltage by using the Analog-to-Digital (ADC) peripheral
 
 ## Summary
 <!-- Summarize what the example has shown -->
-After going through these examples you should have a better understanding for how to periodically measure a voltage or current signal from a sensor while consuming as little power as possible.
+The provided examples will give the user a better understanding of how to periodically measure a voltage or current single from a sensor while consuming as little power as possible.
