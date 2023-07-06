@@ -31,4 +31,4 @@ Measure a voltage by using the ADC peripheral
 
 ## Summary
 <!-- Summarize what the example has shown -->
-The provided examples will give the user a better understanding of how to periodically measure a voltage or current single from a sensor while consuming as little power as possible.
+The provided examples will give the user a better understanding of how to periodically measure a voltage or current signal from a sensor while consuming as little power as possible.
